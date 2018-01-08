@@ -210,6 +210,22 @@ Give it executable rights :
 chmod +x /etc/init.d/nginx
 ```
 
+Create folders for pagespeed cache and change owner/group :
+
+```
+mkdir /var/ngx_pagespeed_cache
+chown nginx:nginx /var/ngx_pagespeed_cache
+```
+
+If you get a failure regarding nginx, you can add the user...
+
+```
+useradd nginx
+or
+useradd --no-create-home nginx
+
+```
+
 ### Install php7.0
 
 ```
@@ -241,32 +257,47 @@ nano /etc/nginx/nginx.conf
 Add the following :
 
 ```
+# please see full content
 user nginx;
 
+        pagespeed on;
+        pagespeed ModifyCachingHeaders on;
+
+        # Needs to exist and be writable by nginx.  Use tmpfs for best performance.
+        pagespeed FileCachePath /var/ngx_pagespeed_cache;
+
+        # Ensure requests for pagespeed optimized resources go to the pagespeed handler
+        # and no extraneous headers get set.
+        location ~ "\.pagespeed\.([a-z]\.)?[a-z]{2}\.[^.]{10}\.[^.]+" {
+        add_header "" "";
+        }
+        location ~ "^/pagespeed_static/" { }
+        location ~ "^/ngx_pagespeed_beacon$" { }
+        
         location ~ [^/]\.php(/|$) {
             fastcgi_split_path_info ^(.+?\.php)(/.*)$;
             if (!-f $document_root$fastcgi_script_name) {
                 return 404;
             }
 
-            # Mitigate https://httpoxy.org/ vulnerabilities
-            fastcgi_param HTTP_PROXY "";
+         # Mitigate https://httpoxy.org/ vulnerabilities
+         fastcgi_param HTTP_PROXY "";
 
-            fastcgi_pass   unix:/run/php/php7.0-fpm.sock;
-            fastcgi_index index.php;
+         fastcgi_pass   unix:/run/php/php7.0-fpm.sock;
+         fastcgi_index index.php;
 
-            # include the fastcgi_param setting
-            include fastcgi_params;
+         # include the fastcgi_param setting
+         include fastcgi_params;
 
-            # SCRIPT_FILENAME parameter is used for PHP FPM determining
-            #  the script name. If it is not set in fastcgi_params file,
-            # i.e. /etc/nginx/fastcgi_params or in the parent contexts,
-            # please comment off following line:
-            fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
+         # SCRIPT_FILENAME parameter is used for PHP FPM determining
+         #  the script name. If it is not set in fastcgi_params file,
+         # i.e. /etc/nginx/fastcgi_params or in the parent contexts,
+         # please comment off following line:
+         fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
         }
 ```
 
-Restart both php && nginx
+Restart both php && nginx :
 
 ```
 service php7.0-fpm restart
