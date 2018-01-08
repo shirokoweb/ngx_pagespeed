@@ -472,4 +472,52 @@ get certbot
      
 get certificate for domain
 
-certbot certonly --standalone –d domain.tld –d www.domain.tld
+     certbot certonly --standalone –d domain.tld –d www.domain.tld
+     
+ When asked, enter VALID email address (or it will fail) :
+
+     Saving debug log to /var/log/letsencrypt/letsencrypt.log
+     Enter email address (used for urgent renewal and security notices) (Enter 'c' to
+     cancel): enter_valid_email@someisp.com
+     
+Answer A to the following question :
+
+     -------------------------------------------------------------------------------
+     Please read the Terms of Service at
+     https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must
+     agree in order to register with the ACME server at
+     https://acme-v01.api.letsencrypt.org/directory
+     -------------------------------------------------------------------------------
+     (A)gree/(C)ancel: A
+
+Output :
+
+     Obtaining a new certificate
+     Performing the following challenges:
+     tls-sni-01 challenge for www.comment.lol
+     tls-sni-01 challenge for comment.lol
+     Waiting for verification...
+     Cleaning up challenges
+     Generating key (2048 bits): /etc/letsencrypt/keys/0000_key-certbot.pem
+     Creating CSR: /etc/letsencrypt/csr/0000_csr-certbot.pem
+
+     IMPORTANT NOTES:
+      - Congratulations! Your certificate and chain have been saved at
+        /etc/letsencrypt/live/www.comment.lol/fullchain.pem. Your cert will
+        expire on 2018-04-08. To obtain a new or tweaked version of this
+        certificate in the future, simply run certbot again. To
+        non-interactively renew *all* of your certificates, run "certbot
+        renew"
+      - If you lose your account credentials, you can recover through
+        e-mails sent to jacklinkers@gmail.com.
+      - Your account credentials have been saved in your Certbot
+        configuration directory at /etc/letsencrypt. You should make a
+        secure backup of this folder now. This configuration directory will
+        also contain certificates and private keys obtained by Certbot so
+        making regular backups of this folder is ideal.
+      - If you like Certbot, please consider supporting our work by:
+
+        Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+        Donating to EFF:                    https://eff.org/donate-le
+
+
