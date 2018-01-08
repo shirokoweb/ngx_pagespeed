@@ -2,7 +2,12 @@
 
 ## Getting Started
 
-Intro TBD
+In order to follow this guide, you need to have a fresh installation of a Debian 9 server / VPS.
+You can quicki=ly spawn an instance for a test drive from our partners :
+
+[Linode](https://www.linode.com/?r=a7ad47fd1e817576deb9432f29b1b718be169e3c)
+or
+[Digital Ocean](https://m.do.co/c/4b39f0353cc0)
 
 ### Setup timezone
 
