@@ -521,3 +521,35 @@ Output :
         Donating to EFF:                    https://eff.org/donate-le
 
 
+### Update the nginx.conf
+
+1. Copy the content from [nginxssl.conf file](https://raw.githubusercontent.com/shirokoweb/nginx/master/nginxssl.conf) and replace all domain.tld by real domain name.
+
+2. Restart nginx
+
+```
+service nginx restart
+```
+
+### Create a cronjob to auto-renew cert
+
+Issue the following command :
+
+     crontab -e
+     
+When asked, asnwer 1 :
+
+     no crontab for root - using an empty one
+
+     Select an editor.  To change later, run 'select-editor'.
+       1. /bin/nano        <---- easiest
+       2. /usr/bin/vim.basic
+       3. /usr/bin/vim.tiny
+
+     Choose 1-3 [1]: 1
+
+Append following cronjob task :
+
+     0 2 * * * certbot renew >> /var/log/letsencrypt.log
+     
+# Enjoy lightning speed website runing Wordpress
