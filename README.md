@@ -257,7 +257,7 @@ nano /etc/nginx/nginx.conf
 Add the following :
 
 ```
-# please see full content
+# please [see full config file](https://raw.githubusercontent.com/shirokoweb/nginx/master/nginx.conf)
 user nginx;
 
         pagespeed on;
@@ -302,6 +302,27 @@ Restart both php && nginx :
 ```
 service php7.0-fpm restart
 service nginx restart
+```
+
+Quick verification
+
+```
+curl -I -p http://localhost
+```
+
+Should output :
+
+
+```
+HTTP/1.1 200 OK
+Server: nginx/1.13.8
+Content-Type: text/html
+Connection: keep-alive
+Vary: Accept-Encoding
+Date: Mon, 08 Jan 2018 16:51:31 GMT
+X-Page-Speed: 1.12.34.3-0
+Cache-Control: max-age=0, no-cache
+
 ```
 
 ### Cheching for PHP
