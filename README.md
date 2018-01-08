@@ -268,6 +268,7 @@ Edit nginx.conf
 Add the following [see full config file](https://raw.githubusercontent.com/shirokoweb/nginx/master/nginx.conf) :
 
 ```
+# /!\ truncated file
 user nginx;
 
         pagespeed on;
@@ -283,28 +284,6 @@ user nginx;
         }
         location ~ "^/pagespeed_static/" { }
         location ~ "^/ngx_pagespeed_beacon$" { }
-        
-        location ~ [^/]\.php(/|$) {
-            fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-            if (!-f $document_root$fastcgi_script_name) {
-                return 404;
-            }
-
-         # Mitigate https://httpoxy.org/ vulnerabilities
-         fastcgi_param HTTP_PROXY "";
-
-         fastcgi_pass   unix:/run/php/php7.0-fpm.sock;
-         fastcgi_index index.php;
-
-         # include the fastcgi_param setting
-         include fastcgi_params;
-
-         # SCRIPT_FILENAME parameter is used for PHP FPM determining
-         #  the script name. If it is not set in fastcgi_params file,
-         # i.e. /etc/nginx/fastcgi_params or in the parent contexts,
-         # please comment off following line:
-         fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
-        }
 ```
 
 Restart both php && nginx :
@@ -360,7 +339,7 @@ array (
     'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5', 
     'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 
     'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0', 
-    'HTTP_HOST' => 'comment.lol', 
+    'HTTP_HOST' => 'domain.tld', 
     'REDIRECT_STATUS' => '200', 
     'HTTPS' => '', 
     'SERVER_NAME' => '_', 
@@ -485,4 +464,12 @@ Leave MariaDB :
      
 Access URL http://domain.tld to install WP
 
-# HAVE FUN     
+### Install Let's Encrypt
+
+get certbot
+
+     apt-get install certbot -y
+     
+get certificate for domain
+
+certbot certonly --standalone –d domain.tld –d www.domain.tld
