@@ -123,7 +123,7 @@ Create nginx init.d file :
 
      nano /etc/init.d/nginx
 
-Add following :
+Add the following :
 
 ```
 #! /bin/sh
@@ -494,8 +494,8 @@ Output :
 
      Obtaining a new certificate
      Performing the following challenges:
-     tls-sni-01 challenge for www.comment.lol
-     tls-sni-01 challenge for comment.lol
+     tls-sni-01 challenge for www.domain.tld
+     tls-sni-01 challenge for domain.tld
      Waiting for verification...
      Cleaning up challenges
      Generating key (2048 bits): /etc/letsencrypt/keys/0000_key-certbot.pem
@@ -503,13 +503,13 @@ Output :
 
      IMPORTANT NOTES:
       - Congratulations! Your certificate and chain have been saved at
-        /etc/letsencrypt/live/www.comment.lol/fullchain.pem. Your cert will
+        /etc/letsencrypt/live/www.domain.tld/fullchain.pem. Your cert will
         expire on 2018-04-08. To obtain a new or tweaked version of this
         certificate in the future, simply run certbot again. To
         non-interactively renew *all* of your certificates, run "certbot
         renew"
       - If you lose your account credentials, you can recover through
-        e-mails sent to jacklinkers@gmail.com.
+        e-mails sent to valid_email@someisp.com.
       - Your account credentials have been saved in your Certbot
         configuration directory at /etc/letsencrypt. You should make a
         secure backup of this folder now. This configuration directory will
