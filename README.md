@@ -254,10 +254,9 @@ Edit nginx.conf
 nano /etc/nginx/nginx.conf
 ```
 
-Add the following :
+Add the following [see full config file](https://raw.githubusercontent.com/shirokoweb/nginx/master/nginx.conf) :
 
 ```
-# please [see full config file](https://raw.githubusercontent.com/shirokoweb/nginx/master/nginx.conf)
 user nginx;
 
         pagespeed on;
