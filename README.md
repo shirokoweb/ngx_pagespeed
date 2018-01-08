@@ -8,9 +8,7 @@ Intro TBD
 
 Set accordingly
 
-```
-dpkg-reconfigure tzdata
-```
+     dpkg-reconfigure tzdata
 
 ### Update and install tools
 
@@ -24,29 +22,21 @@ apt-get update
 
 Create the file :
 
-```
-nano /etc/apt/sources.list.d/nginx.list
-```
+     nano /etc/apt/sources.list.d/nginx.list
 
 Add the following :
 
-```
-deb http://nginx.org/packages/debian/ stretch nginx
-deb-src http://nginx.org/packages/debian/ stretch nginx
-```
+     deb http://nginx.org/packages/debian/ stretch nginx
+     deb-src http://nginx.org/packages/debian/ stretch nginx
 
 Update
 
-```
-apt-get update
-```
+     apt-get update
 
 Add the key and update
 
-```
-wget -q "http://nginx.org/packages/keys/nginx_signing.key" -O-| sudo apt-key add -
-apt-get update
-```
+     wget -q "http://nginx.org/packages/keys/nginx_signing.key" -O-| sudo apt-key add -
+     apt-get update
 
 ### Compile ngx source /w pagespeeed
 
@@ -107,9 +97,7 @@ Add following to ./config when asked if any custom instructions :
 
 Create nginx.service file :
 
-```
-nano /lib/systemd/system/nginx.service
-```
+     nano /lib/systemd/system/nginx.service
 
 And add the following [Original post on Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/systemd/):
 
@@ -133,9 +121,7 @@ WantedBy=multi-user.target
 
 Create nginx init.d file :
 
-```
-nano /etc/init.d/nginx
-```
+     nano /etc/init.d/nginx
 
 Add following :
 
@@ -206,25 +192,18 @@ exit 0
 
 Give it executable rights :
 
-```
-chmod +x /etc/init.d/nginx
-```
+     chmod +x /etc/init.d/nginx
 
 Create folders for pagespeed cache and change owner/group :
 
-```
-mkdir /var/ngx_pagespeed_cache
-chown nginx:nginx /var/ngx_pagespeed_cache
-```
+     mkdir /var/ngx_pagespeed_cache
+     chown nginx:nginx /var/ngx_pagespeed_cache
 
 If you get a failure regarding nginx, you can add the user...
 
-```
-useradd nginx
-or
-useradd --no-create-home nginx
-
-```
+     useradd nginx
+     or
+     useradd --no-create-home nginx
 
 ### Install php7.0
 
@@ -234,9 +213,7 @@ apt-get install -y php7.0-fpm php7.0-gd php7.0-mysql php7.0-cli php7.0-common ph
 
 Edit www.conf file :
 
-```
-nano /etc/php/7.0/fpm/pool.d/www.conf
-```
+     nano /etc/php/7.0/fpm/pool.d/www.conf
 
 Make sure following is set :
 
@@ -250,9 +227,7 @@ listen.group = nginx
 
 Edit fastcgi_params :
 
-```
-nano /etc/nginx/fastcgi_params
-```
+     nano /etc/nginx/fastcgi_params
 
 Add the following :
 
@@ -288,9 +263,7 @@ fastcgi_param   REDIRECT_STATUS         200;
 
 Edit nginx.conf
 
-```
-nano /etc/nginx/nginx.conf
-```
+     nano /etc/nginx/nginx.conf
 
 Add the following [see full config file](https://raw.githubusercontent.com/shirokoweb/nginx/master/nginx.conf) :
 
@@ -336,19 +309,14 @@ user nginx;
 
 Restart both php && nginx :
 
-```
-service php7.0-fpm restart
-service nginx restart
-```
+     service php7.0-fpm restart
+     service nginx restart
 
 Quick verification
 
-```
-curl -I -p http://localhost
-```
+     curl -I -p http://localhost
 
 Should output :
-
 
 ```
 HTTP/1.1 200 OK
@@ -362,19 +330,15 @@ Cache-Control: max-age=0, no-cache
 
 ```
 
-### Cheching for PHP
+### Testing php
 
-Create info.php test file in root folder for vhost
+Create test.php file in root folder for the vhost
 
-```
-nano /usr/local/nginx/html/test.php
-```
+     nano /usr/local/nginx/html/test.php
 
 Add the following and save :
 
-```
-<?php var_export($_SERVER)?>
-```
+     <?php var_export($_SERVER)?>
 
 In a browser try to request: # /test.php # /test.php/ # /test.php/foo # /test.php/foo/bar.php # /test.php/foo/bar.php?v=1
 ie. http://mydomain.tld/test.php or http://mydomain.tld/test.php/foo/bar.php?v=1 etc.
@@ -425,3 +389,100 @@ array (
     'REQUEST_TIME' => 1515427194, 
     )
 ```
+
+### MariaDB
+
+Get and install MariaDB
+
+     apt-get install mariadb-server mariadb-client -y
+
+Edit 50-server.cnf file :
+
+     nano /etc/mysql/mariadb.conf.d/50-server.cnf
+     
+line 111,112: change like follows
+
+     character-set-server = utf8
+     # collation-server = utf8mb4_general_ci
+     
+Restart MariaDB :
+
+     systemctl restart mariadb
+     or
+     service maraidb restart
+
+Run initial settings and secure installation
+
+     mysql_secure_installation
+     
+Add a root pwd :
+
+     Enter current password for root (enter for none): YOUR_PWD_HERE >> PRESS ENTER
+     
+Answer as follow :
+
+     Change the root password? [Y/n]              ---> n
+     Remove anonymous users? [Y/n]                ---> y
+     Disallow root login remotely? [Y/n]          ---> y
+     Remove test database and access to it? [Y/n] ---> y
+     Reload privilege tables now? [Y/n]           ---> y
+     
+Connect to MariaDB with root :
+
+     mysql -u root -p
+     Enter password: YOUR_PWD_HERE >> PRESS ENTER
+     
+On successful connection :
+
+     Welcome to the MariaDB monitor.  Commands end with ; or \g.
+     Your MariaDB connection id is 8
+     Server version: 10.1.26-MariaDB-0+deb9u1 Debian 9.1
+
+     Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.
+
+     Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+     
+Create a DB for WP installation :
+
+     CREATE DATABASE wordpress; GRANT ALL ON wordpress.* TO wpdbuser@localhost IDENTIFIED BY 'PWD_FOR_WPDBUSER';
+     
+Should output :
+
+     Query OK, 1 row affected (0.00 sec)
+     Query OK, 0 rows affected (0.00 sec)
+     
+Verifi DB creation :
+
+     MariaDB [(none)]> show databases;
+     
+Should output :
+
+     +--------------------+
+     | Database           |
+     +--------------------+
+     | information_schema |
+     | mysql              |
+     | performance_schema |
+     | wordpress          |
+     +--------------------+
+
+Leave MariaDB :
+
+     exit
+     
+Check MariaDB connection with user wpbuser :
+
+     mysql -u wpdbuser -p
+     Enter password: PWD_FOR_WPDBUSER
+
+Leave MariaDB :
+
+     MariaDB [(none)]> exit
+     
+### Install Wordpress
+
+     cd /usr/local/nginx/html && wget https://wordpress.org/latest.zip && unzip latest.zip && mv wordpress/* . && rmdir wordpress && rm -f latest.zip && chown -R nginx:nginx /usr/local/nginx/html && mv index.html index.html.bkp
+     
+Access URL http://domain.tld to install WP
+
+# HAVE FUN     
