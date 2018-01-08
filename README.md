@@ -50,7 +50,7 @@ apt-get update
 
 ### Compile ngx source /w pagespeeed
 
-Get latest pagespeed version from source (automated install)
+Get latest pagespeed version from source (automated install) [See original instructions on ngxpagespeed.com](https://www.modpagespeed.com/doc/build_ngx_pagespeed_from_source): 
 
 ```
 bash <(curl -f -L -sS https://ngxpagespeed.com/install) \
@@ -111,7 +111,7 @@ Create nginx.service file :
 nano /lib/systemd/system/nginx.service
 ```
 
-And add the following :
+And add the following [Original post on Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/systemd/):
 
 ```
 [Unit]
