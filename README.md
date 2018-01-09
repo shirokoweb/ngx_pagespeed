@@ -533,7 +533,9 @@ Output :
 
 2. create cipherlist file :
 
-     nano /etc/nginx/cipherlist.conf
+```
+nano /etc/nginx/cipherlist.conf
+```
 
 Add following :
 
@@ -551,7 +553,15 @@ Add following :
      resolver 8.8.8.8 8.8.4.4 valid=300s;
      resolver_timeout 5s;
 
-3. Create letsencrypt config file
+### Alternative way to get a Let's encrypt SSL certificate
+
+To obtain a Let’s Encrypt certificate via the "webroot" plugin use the below syntax. Add Nginx web root directory, which by default is located in /var/www/html/ system path, while issuing certbot command with the --webroot and –w flags. Also, make sure that Nginx has full write permissions to web root directory in order to create the /.well-known directory.
+
+The --webrot option for cerbot will also ask you add your email address for certificate renewal and security notices. Certbot client has built-in code that can detect a fake email address. You must provide a public accessible e-mail address in order to continue obtaining a certificate.
+
+     certbot certonly --webroot –w /usr/local/nginx/html/ -d domain.tld –d www.domain.tld
+     
+Create the letsencrypt conf file :
 
 ```
 nano /etc/nginx/letsenctypt.conf
