@@ -201,8 +201,7 @@ Give it executable rights :
 
 Create folders for pagespeed cache and change owner/group :
 
-     mkdir /var/ngx_pagespeed_cache
-     chown nginx:nginx /var/ngx_pagespeed_cache
+     mkdir /var/ngx_pagespeed_cache && chown nginx:nginx /var/ngx_pagespeed_cache
 
 If you get a failure regarding nginx, you can add the user...
 
