@@ -198,16 +198,18 @@ exit 0
 Give it executable rights :
 
      chmod +x /etc/init.d/nginx
+     
 
-Create folders for pagespeed cache and change owner/group :
-
-     mkdir /var/ngx_pagespeed_cache && chown nginx:nginx /var/ngx_pagespeed_cache
-
-If you get a failure regarding nginx, you can add the user...
+Create a nginx user :
 
      useradd nginx
      or
      useradd --no-create-home nginx
+
+
+Create folders for pagespeed cache and change owner/group :
+
+     mkdir /var/ngx_pagespeed_cache && chown nginx:nginx /var/ngx_pagespeed_cache
 
 ### Install php7.0
 
@@ -476,7 +478,7 @@ get certbot
      
 get certificate for domain
 
-     certbot certonly --standalone –d domain.tld –d www.domain.tld
+     certbot certonly --standalone -d domain.tld -d www.domain.tld
      
  When asked, enter VALID email address (or it will fail) :
 
