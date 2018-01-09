@@ -531,7 +531,28 @@ Output :
 
 1. Copy the content from [nginxssl.conf file](https://raw.githubusercontent.com/shirokoweb/nginx/master/nginxssl.conf) and replace all domain.tld by real domain name.
 
-2. Restart nginx
+2. create cipherlist file :
+
+     nano /etc/nginx/cipherlist.conf
+
+Add following :
+
+     # https://cipherli.st/
+     ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH:ECDHE-RSA-AES128-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA128:DHE-RSA-AES128-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-GCM-SHA128:ECDHE-RSA-AES128-SHA384:ECDHE-RSA-AES128-SHA128:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES128-SHA128:DHE-RSA-AES128-SHA128:DHE-RSA-AES128-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA384:AES128-GCM-SHA128:AES128-SHA128:AES128-SHA128:AES128-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
+     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+     ssl_prefer_server_ciphers on;
+     ssl_session_cache shared:SSL:10m;
+     add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+     add_header X-Frame-Options DENY;
+     add_header X-Content-Type-Options nosniff;
+     #ssl_session_tickets off;
+     ssl_stapling on; # Requires nginx >= 1.3.7
+     ssl_stapling_verify on; # Requires nginx >= 1.3.7
+     resolver 8.8.8.8 8.8.4.4 valid=300s;
+     resolver_timeout 5s;
+
+
+3. Restart nginx
 
 ```
 service nginx restart
