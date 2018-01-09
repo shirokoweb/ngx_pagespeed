@@ -551,10 +551,33 @@ Add following :
      resolver 8.8.8.8 8.8.4.4 valid=300s;
      resolver_timeout 5s;
 
-
-3. Restart nginx
+3. Create letsencrypt config file
 
 ```
+nano /etc/nginx/letsenctypt.conf
+```
+
+Add the following :
+
+     # https://community.letsencrypt.org/t/how-to-nginx-configuration-to-enable-acme-challenge-support-on-all-http-virtual-hosts/5622
+
+     location ^~ /.well-known/ {
+         root /var/www/letsencrypt;
+         default_type text/plain;
+         auth_basic off;
+         allow all;
+     }
+     location = /.well-known/ {
+         return 404;
+     }
+     location = /.well-known/acme-challenge/ {
+         return 404;
+     }
+     
+4. Check config & restart nginx :
+
+```
+nginx -t
 service nginx restart
 ```
 
@@ -562,7 +585,9 @@ service nginx restart
 
 Issue the following command :
 
-     crontab -e
+```
+crontab -e
+```
      
 When asked, asnwer 1 :
 
@@ -583,7 +608,9 @@ Append following cronjob task :
 
 create nginx logrotate conf file
 
-     nano /etc/logrotate.d/nginx
+```
+nano /etc/logrotate.d/nginx
+```
      
 Append the following :
 
