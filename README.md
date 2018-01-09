@@ -557,4 +557,28 @@ Append following cronjob task :
 
      0 2 * * * certbot renew >> /var/log/letsencrypt.log
      
+### Optional log rotation
+
+create nginx logrotate conf file
+
+     nano /etc/logrotate.d/nginx
+     
+Append the following :
+
+     /var/log/nginx/*.log {
+             daily
+             dateext
+             dateformat .%Y-%m-%d
+             missingok
+             rotate 52
+             compress
+             delaycompress
+             notifempty
+             create 0640 nginx nginx
+             sharedscripts
+             postrotate
+                     [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+             endscript
+     }
+     
 # Enjoy lightning speed website runing Wordpress
