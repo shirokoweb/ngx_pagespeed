@@ -9,7 +9,7 @@ You can quicki=ly spawn an instance for a test drive from our partners :
 or
 [Digital Ocean](https://m.do.co/c/4b39f0353cc0)
 
-A register domain name pointing to your instance / server IP address.
+A registered domain name pointing to your instance / server IP address.
 * Make sure DNS has propagate, it may take up to 48hours.
 
 ### Setup timezone
