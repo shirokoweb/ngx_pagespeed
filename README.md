@@ -234,6 +234,14 @@ listen.owner = nginx
 listen.group = nginx
 ```
 
+Increase php upload_max_filesize limit
+
+     nano /etc/php/7.0/fpm/php.ini
+
+Set
+
+     upload_max_filesize = 64M
+
 Edit fastcgi_params :
 
      nano /etc/nginx/fastcgi_params
