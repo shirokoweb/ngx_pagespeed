@@ -278,6 +278,14 @@ fastcgi_param   HTTPS                   $https;
 fastcgi_param   REDIRECT_STATUS         200;
 ```
 
+Edit mime.types
+
+     nano /etc/nginx/mime.types
+     
+Add the following :
+
+     application/x-font-ttf                           ttc ttf;
+
 Edit nginx.conf
 
      nano /etc/nginx/nginx.conf
